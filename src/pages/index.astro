@@ -1,0 +1,567 @@
+---
+import Layout from "@/layouts/Layout.astro"
+
+import HeroKeyLogo from "@/assets/hero-key-logo.webp"
+import HeroKeyBackground from "@/assets/hero-key-background.webp"
+import LogoVI from "@/assets/logo-vi.svg"
+import LogoCutted from "@/assets/logo-cutted.svg"
+import videomp4 from "@/assets/videos/web-auto.mp4"
+import videoFinalMp4 from "@/assets/videos/web-auto-final.mp4"
+import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
+---
+
+<Layout>
+  <!-- ===================== SECTION 1: HERO (scroll-driven mask animation) ===================== -->
+  <section id="hero-section" class="relative h-[400vh]">
+    <div id="logo-mask" class="fixed top-0 w-full h-[var(--vh)] pointer-events-none z-10">
+      <section>
+        <picture
+          id="hero-key"
+          class="h-[var(--vh)] scale-100 overflow-hidden fixed flex top-0 left-0 m-auto w-full"
+        >
+          <img
+            id="hero-key-logo"
+            src={HeroKeyLogo.src}
+            class="absolute w-full h-full object-cover"
+          />
+          <img
+            id="hero-key-background"
+            src={HeroKeyBackground.src}
+            class="w-full h-full object-cover object-center"
+          />
+        </picture>
+      </section>
+    </div>
+
+    <div
+      id="hero-overlay"
+      class="fixed z-20 top-0 left-0 flex h-[var(--vh)] w-full flex-col items-center justify-between px-20 py-16 pointer-events-none"
+    >
+      <header class="flex justify-between w-full pointer-events-auto">
+        <LogoVI
+          class="size-11 text-white hover:text-yellow-100 transition-colors duration-500 cursor-pointer"
+        />
+      </header>
+
+      <div
+        id="hero-date"
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[10%] text-center text-white uppercase opacity-0"
+      >
+        <span class="block text-4xl sm:text-6xl md:text-8xl font-bold tracking-[0px] opacity-80 leading-[0.82]">Proximamente</span>
+        <span class="block text-5xl sm:text-7xl md:text-9xl font-bold tracking-[0px] leading-[0.82]">4 de Abril</span>
+        <span class="block text-4xl sm:text-6xl md:text-8xl font-bold tracking-[0px] leading-[0.82]">2026</span>
+      </div>
+
+      <footer id="hero-footer" class="absolute bottom-8 m-auto">
+        <LogoCutted
+          class="text-white w-38 drop-shadow-[0_0_2px_rgba(255,255,255,.5),0_0_8px_#000]"
+        />
+        <span
+          class="absolute uppercase tracking-[6px] whitespace-nowrap text-center top-[49px] font-medium text-shadow-[0_0_2px_rgba(255,255,255,.5),0_0_8px_#000] left-1/2 -translate-x-1/2 text-lg"
+        >
+          Scrolleá
+        </span>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 2: TRANSITION (overlay wipe hides hero) ===================== -->
+  <section id="transition-section" class="relative h-[200vh]">
+    <div
+      id="transition-overlay"
+      class="fixed top-0 left-0 w-full h-[var(--vh)] pointer-events-none opacity-0 z-40"
+    >
+    </div>
+    <div
+      id="transition-text"
+      class="fixed top-0 left-0 w-full h-[var(--vh)] pointer-events-none z-45 flex items-center justify-center opacity-0"
+    >
+      <div class="max-w-2xl mx-auto px-16 py-10 text-left rounded-3xl  backdrop-blur-md">
+        <p id="story-line-1" class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 opacity-0 translate-y-8">
+          <span class="story-text">La Paternal, Caba</span>
+        </p>
+        <p id="story-body" class="text-lg sm:text-xl md:text-2xl opacity-0 translate-y-8 leading-snug font-semibold">
+          <span class="story-text">Delfi siempre supo que este momento iba a llegar. Quince años preparándose para el nivel más importante. Pero cuando el countdown llegue a cero… la historia se traslada a un destino secreto en el Gran Buenos Aires.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 3: VIDEO SCRUB ===================== -->
+  <section id="video-section" class="relative h-[200vh]">
+    <div id="video-container" class="fixed top-0 left-0 w-full h-[var(--vh)] opacity-0 pointer-events-none z-50 flex items-center justify-center overflow-hidden">
+      <video
+        id="scrub-video"
+        class="min-w-full min-h-full object-cover scale-125"
+        muted
+        playsinline
+        preload="auto"
+      >
+        <source src={videomp4} type="video/mp4" />
+      </video>
+      <div id="video-vignette" class="absolute inset-0 pointer-events-none"></div>
+      <div id="video-fade-to-black" class="absolute inset-0 bg-[#111] opacity-0 pointer-events-none"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4: FEATURES PLACEHOLDER ===================== -->
+  <section id="features-section" class="relative min-h-[var(--vh)] flex items-center justify-center z-[60] -mt-[90vh] ">
+    <div class="max-w-5xl mx-auto px-8 py-24 text-center">
+      <h2 class="text-6xl font-bold uppercase mb-8 opacity-0 italic tracking-tighter" id="features-title">
+        XV<br/>Delfi
+      </h2>
+      <p class="text-xl text-white/80 max-w-2xl mx-auto mb-16 opacity-0 leading-relaxed font-medium" id="features-subtitle">
+        Esta no es una fiesta cualquiera. Es <strong>EL EVENTO</strong>. Preparate para tomar la noche, romper la pista y vivir una experiencia criminalmente buena.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-pink-500/50 transition-colors duration-300">
+          <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]">🍸</div>
+          <h3 class="text-2xl font-bold mb-2 uppercase italic">Open Bar</h3>
+          <p class="text-white/60 text-sm">Combustible ilimitado para aguantar la misión hasta el amanecer.</p>
+        </div>
+        <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-purple-500/50 transition-colors duration-300">
+          <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">🎧</div>
+          <h3 class="text-2xl font-bold mb-2 uppercase italic">Line Up</h3>
+          <p class="text-white/60 text-sm">DJ Set explosivo. Solo hits. Si no bailás, estás fuera del equipo.</p>
+        </div>
+        <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-cyan-500/50 transition-colors duration-300">
+          <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">🕶️</div>
+          <h3 class="text-2xl font-bold mb-2 uppercase italic">Elegante Sport</h3>
+          <p class="text-white/60 text-sm">Vestite para matar. Glamour, estilo y actitud de Vice City.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.5: CORONITA PHOTO-FRAME VIDEO ===================== -->
+  <section id="coronita-section" class="relative h-[200vh] z-[60]">
+    <div class="sticky top-0 h-[var(--vh)] flex items-center justify-center">
+      <div id="coronita-frame" class="coronita-frame relative border-[8px] border-white rounded-sm shadow-[0_0_30px_rgba(255,255,255,0.15)] w-[85vw] max-w-3xl aspect-[9/16] overflow-hidden">
+        <video
+          id="coronita-video"
+          class="w-full h-full object-cover coronita-bw"
+          muted
+          playsinline
+          preload="auto"
+        >
+          <source src={videoCoronita} type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 5: VIDEO FINAL (sticky + circular wipe) ===================== -->
+  <section id="video-final-section" class="relative h-[200vh] z-[60]">
+    <div class="sticky top-0 w-full h-[var(--vh)] overflow-hidden">
+      <video
+        id="scrub-video-final"
+        class="w-full h-full object-cover"
+        muted
+        playsinline
+        preload="auto"
+      >
+        <source src={videoFinalMp4} type="video/mp4" />
+      </video>
+      <div id="video-final-fade" class="absolute inset-0 bg-[#111] opacity-0 pointer-events-none"></div>
+      <div id="video-final-wipe" class="absolute inset-0 bg-[#111] pointer-events-none"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 6: CTA / FINAL PLACEHOLDER ===================== -->
+  <section id="cta-section" class="relative min-h-[var(--vh)] flex items-center justify-center z-[70] -mt-[100vh]">
+    <div class="text-center px-8">
+      <div id="cta-logo" class="opacity-0 scale-75">
+        <LogoVI
+          class="size-40 text-white mx-auto mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+        />
+      </div>
+      <h2 id="cta-title" class="text-5xl md:text-8xl font-black uppercase mb-6 opacity-0 italic tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400">
+        Are You In?
+      </h2>
+      <p id="cta-subtitle" class="text-2xl text-white/80 mb-12 opacity-0 font-medium tracking-wide flex items-center justify-center">
+        4 DE ABRIL, 2026 <span class="mx-2 text-pink-500">•</span> <span class="px-0">21:00 HS</span>
+      </p>
+      <div id="cta-buttons" class="flex flex-col sm:flex-row gap-6 justify-center opacity-0 translate-y-8">
+        <a href="#" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-10 py-4 rounded-sm font-black text-xl uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(236,72,153,0.4)] clip-path-slant">
+          Confirmar Asistencia
+        </a>
+        <a href="#" class="bg-transparent border-2 border-white/30 text-white px-10 py-4 rounded-sm font-bold text-xl uppercase tracking-widest hover:bg-white/10 hover:border-white transition-all duration-300">
+          Ver Ubicación
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  #logo-mask {
+    background: white;
+    mask-image: url("/logo-stack.svg");
+    mask-position: center 23%;
+    mask-repeat: no-repeat;
+    mask-size: clamp(5000vh, 3500%, 0vh);
+  }
+
+  #transition-overlay {
+    background: radial-gradient(circle at center, #111 0%, #111 40%, rgba(17, 17, 17, 0.8) 70%, transparent 100%);
+  }
+
+  .story-text {
+    background: linear-gradient(90deg, #f0c27f 0%, #fc5c7d 50%, #6a82fb 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #video-vignette {
+    box-shadow: inset 0 0 100px 40px rgba(17, 17, 17, 0.9);
+  }
+
+  #video-final-wipe {
+    background: linear-gradient(to bottom, #111 85%, transparent 100%);
+    transform: translateY(-100%);
+  }
+
+  #coronita-video {
+    transition: filter 0.6s ease;
+  }
+
+  .coronita-bw {
+    filter: grayscale(100%);
+  }
+
+  .coronita-frame {
+    transform: rotate(-2deg);
+    transform-origin: center;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap"
+  import { ScrollTrigger } from "gsap/ScrollTrigger"
+  import Lenis from "lenis"
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  // ─── LENIS SMOOTH SCROLL — TUNABLE PARAMETERS ───
+  const isMobile = window.innerWidth < 768
+
+  const lenis = new Lenis({
+    lerp: isMobile ? 0.06 : 0.1,         // más suave en mobile (más inercia)
+    duration: isMobile ? 13 : 1.0,       // duración más larga en mobile → mayor deslizamiento
+    wheelMultiplier: 3,                    // mouse wheel speed multiplier
+    touchMultiplier: isMobile ? 3 : 1.5,  // más impulso por cada gesto táctil
+    smoothWheel: true,                     // enable smooth scroll on mouse wheel
+  })
+
+  // Sync Lenis scroll position → ScrollTrigger
+  lenis.on("scroll", ScrollTrigger.update)
+
+  // Drive Lenis from GSAP's ticker (single rAF loop)
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000) // GSAP time is in seconds, Lenis expects ms
+  })
+  gsap.ticker.lagSmoothing(0)
+
+  // ─── 1. HERO TIMELINE (scoped to #hero-section) ───
+  const heroTl = gsap.timeline({
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: "#hero-section",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1,
+    },
+  })
+
+  heroTl
+    .to("#hero-key", { duration: 1, scale: 1.2 })
+    .to("#hero-key-logo", { opacity: 0 }, "<")
+    .to("#hero-footer", { opacity: 0 }, "<")
+    .to(
+      "#logo-mask",
+      {
+        maskSize: "clamp(20vh, 25%, 30vh)",
+      },
+      0.15
+    )
+    .to(
+      "#hero-date",
+      {
+        opacity: 1,
+        duration: 0.15,
+      },
+      "<+0.42"
+    )
+    .to(
+      "#hero-key",
+      {
+        opacity: 0,
+        duration: 0.2,
+      },
+      0.4
+    )
+
+  // ─── 2. HIDE "KEEP SCROLLING" INDICATOR ───
+  gsap.to("#keep-scrolling", {
+    opacity: 0,
+    scrollTrigger: {
+      trigger: "#hero-section",
+      start: "top top",
+      end: "15% top",
+      scrub: true,
+    },
+  })
+
+  // ─── 3. TRANSITION OVERLAY + STORY TEXT ───
+  const transitionTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#transition-section",
+      start: "top-=100vh bottom",
+      end: "bottom top",
+      scrub: 1,
+    },
+  })
+
+  transitionTl
+    // Phase 1: Dark overlay fades in, hides hero
+    .to("#transition-overlay", { opacity: 1, duration: 0.12 }, 0)
+    .to("#hero-overlay", { opacity: 0, duration: 0.08 }, 0)
+    .to("#logo-mask", { opacity: 0, duration: 0.08 }, 0.02)
+
+    // Phase 2: Text appears (earlier)
+    .to("#transition-text", { opacity: 1, duration: 0.05 }, 0.06)
+    .to("#story-line-1", { opacity: 1, y: 0, duration: 0.08 }, 0.08)
+    .to("#story-body", { opacity: 1, y: 0, duration: 0.08 }, 0.10)
+
+    // Phase 3: Gradient color shift
+    .to(".story-text", {
+      backgroundPosition: "0% 0",
+      duration: 0.25,
+      stagger: 0.04,
+    }, 0.16)
+
+    // Phase 4: Video starts appearing behind the text
+    .to("#video-container", { opacity: 1, duration: 0.15 }, 0.30)
+    .to("#transition-overlay", { opacity: 0, duration: 0.2 }, 0.35)
+
+    // Phase 5: Text fades out, video fully revealed
+    .to("#transition-text", { opacity: 0, duration: 0.15 }, 0.50)
+
+  // ─── 4. VIDEO SCRUB ───
+  const video = document.getElementById("scrub-video") as HTMLVideoElement
+
+  // Smooth video scrubbing: interpolate currentTime each frame
+  let videoTargetTime = 0
+  let videoCurrentTime = 0
+  const VIDEO_LERP = 0.2 // smoothing factor (lower = smoother but laggier)
+
+  function smoothVideoRAF() {
+    const diff = videoTargetTime - videoCurrentTime
+    if (Math.abs(diff) > 0.001) {
+      videoCurrentTime += diff * VIDEO_LERP
+      if (video.readyState >= 2) {
+        video.currentTime = videoCurrentTime
+      }
+    }
+    requestAnimationFrame(smoothVideoRAF)
+  }
+  requestAnimationFrame(smoothVideoRAF)
+
+  const initVideoScrub = () => {
+    const videoDuration = video.duration
+    videoCurrentTime = 0
+    videoTargetTime = 0
+
+    // Fade video in and scrub its currentTime
+    const videoTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#video-section",
+        // offset negativo: el video empieza a reproducirse 50vh antes de entrar al viewport
+        start: "top-=500vh bottom",
+        end: "bottom bottom",
+        scrub: true,
+        onUpdate: (self) => {
+          videoTargetTime = self.progress * videoDuration
+        },
+      },
+    })
+
+    videoTl
+      .to("#scrub-video", { scale: 1, duration: .8, ease: "none" }, 0)
+      .to("#video-fade-to-black", { opacity: 1, duration: 0.2 }, 0.75)
+  }
+
+  if (video.readyState >= 1) {
+    initVideoScrub()
+  } else {
+    video.addEventListener("loadedmetadata", initVideoScrub)
+  }
+
+  // ─── 5. FEATURES SECTION REVEAL ───
+  gsap.to("#features-title", {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    scrollTrigger: {
+      trigger: "#features-section",
+      start: "top 80%",
+      end: "top 40%",
+      scrub: 1,
+    },
+  })
+
+  gsap.to("#features-subtitle", {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    scrollTrigger: {
+      trigger: "#features-section",
+      start: "top 70%",
+      end: "top 35%",
+      scrub: 1,
+    },
+  })
+
+  gsap.utils.toArray<HTMLElement>(".feature-card").forEach((card, i) => {
+    gsap.to(card, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 85%",
+        end: "top 55%",
+        scrub: 1,
+      },
+    })
+  })
+
+  // ─── 5.5. CORONITA PHOTO-FRAME VIDEO ───
+  const coronitaVideo = document.getElementById("coronita-video") as HTMLVideoElement
+  const coronitaFrame = document.getElementById("coronita-frame") as HTMLElement
+
+  const initCoronitaScrub = () => {
+    const coronitaDuration = coronitaVideo.duration
+    let lastSetTime = -1
+
+    // Video scrub + rotation via ScrollTrigger
+    ScrollTrigger.create({
+      trigger: "#coronita-section",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        const targetTime = self.progress * coronitaDuration
+        // Only seek if the jump is big enough (> 1 frame at 30fps)
+        if (coronitaVideo.readyState >= 2 && Math.abs(targetTime - lastSetTime) > 0.033) {
+          coronitaVideo.currentTime = targetTime
+          lastSetTime = targetTime
+        }
+      },
+      onEnter: () => {
+        coronitaVideo.classList.remove("coronita-bw")
+        gsap.to(coronitaFrame, { rotation: 0, duration: 0.4, ease: "power2.out" })
+      },
+      onLeaveBack: () => {
+        coronitaVideo.classList.add("coronita-bw")
+        gsap.to(coronitaFrame, { rotation: -2, duration: 0.4, ease: "power2.out" })
+      },
+    })
+  }
+
+  if (coronitaVideo.readyState >= 1) {
+    initCoronitaScrub()
+  } else {
+    coronitaVideo.addEventListener("loadedmetadata", initCoronitaScrub)
+  }
+
+  // ─── 6. VIDEO FINAL (sticky + circular wipe) ───
+  const videoFinal = document.getElementById("scrub-video-final") as HTMLVideoElement
+
+  // Smooth video scrubbing for final video
+  let videoFinalTargetTime = 0
+  let videoFinalCurrentTime = 0
+  const VIDEO_FINAL_LERP = 0.1
+
+  function smoothVideoFinalRAF() {
+    const diff = videoFinalTargetTime - videoFinalCurrentTime
+    if (Math.abs(diff) > 0.001) {
+      videoFinalCurrentTime += diff * VIDEO_FINAL_LERP
+      if (videoFinal.readyState >= 2) {
+        videoFinal.currentTime = videoFinalCurrentTime
+      }
+    }
+    requestAnimationFrame(smoothVideoFinalRAF)
+  }
+  requestAnimationFrame(smoothVideoFinalRAF)
+
+  const initVideoFinalScrub = () => {
+    const finalDuration = videoFinal.duration
+    videoFinalCurrentTime = 0
+    videoFinalTargetTime = 0
+
+    const videoFinalScrollTrigger = {
+      trigger: "#video-final-section",
+      start: "top-=1300px top",
+      end: "bottom bottom",
+      scrub: true,
+    }
+
+    // Video scrub (standalone ScrollTrigger)
+    ScrollTrigger.create({
+      ...videoFinalScrollTrigger,
+      onUpdate: (self) => {
+        videoFinalTargetTime = self.progress * finalDuration
+      },
+    })
+
+    // Fade to black (independent, direct scroll control)
+    gsap.fromTo("#video-final-fade", 
+      { opacity: 0 }, 
+      { 
+        opacity: 1, 
+        ease: "power2.in",
+        scrollTrigger: {
+          trigger: "#video-final-section",
+          start: "30% top",
+          end: "35% top",
+          scrub: 1,
+        }
+      }
+    )
+
+    // Wipe (independent timeline)
+    gsap.timeline({
+      scrollTrigger: { ...videoFinalScrollTrigger },
+    }).to("#video-final-wipe", {
+      y: 0,
+      duration: 0.4,
+      ease: "expo.in",
+    }, -0.47)
+  }
+
+  if (videoFinal.readyState >= 1) {
+    initVideoFinalScrub()
+  } else {
+    videoFinal.addEventListener("loadedmetadata", initVideoFinalScrub)
+  }
+
+  // ─── 7. CTA SECTION REVEAL ───
+  const ctaTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#cta-section",
+      start: "top 90%",
+      end: "top 75%",
+      scrub: 1,
+    },
+  })
+
+  ctaTl
+    .to("#cta-logo", { opacity: 1, scale: 1, duration: 0.1 })
+    .to("#cta-title", { opacity: 1, duration: 0.1 }, "<")
+    .to("#cta-subtitle", { opacity: 1, duration: 0.1 }, "<")
+    .to("#cta-buttons", { opacity: 1, y: 0, duration: 0.1 }, "<")
+</script>
