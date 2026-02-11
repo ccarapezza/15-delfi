@@ -443,9 +443,26 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
   const coronitaVideo = document.getElementById("coronita-video") as HTMLVideoElement
   const coronitaFrame = document.getElementById("coronita-frame") as HTMLElement
 
+  let coronitaTargetTime = 0
+  let coronitaCurrentTime = 0
+  let coronitaRafId: number | null = null
+  const CORONITA_LERP = 0.1
+
+  function smoothCoronitaRAF() {
+    const diff = coronitaTargetTime - coronitaCurrentTime
+    if (Math.abs(diff) > 0.005) {
+      coronitaCurrentTime += diff * CORONITA_LERP
+      if (coronitaVideo.readyState >= 2) {
+        coronitaVideo.currentTime = Math.max(0, Math.min(coronitaCurrentTime, coronitaVideo.duration))
+      }
+    }
+    coronitaRafId = requestAnimationFrame(smoothCoronitaRAF)
+  }
+
   const initCoronitaScrub = () => {
-    const coronitaDuration = coronitaVideo.duration
-    let lastSetTime = -1
+    const coronitaDuration = coronitaVideo.duration || 1
+    coronitaCurrentTime = 0
+    coronitaTargetTime = 0
 
     // Video scrub + rotation via ScrollTrigger
     ScrollTrigger.create({
@@ -454,20 +471,23 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
       end: "bottom bottom",
       scrub: true,
       onUpdate: (self) => {
-        const targetTime = self.progress * coronitaDuration
-        // Only seek if the jump is big enough (> 1 frame at 30fps)
-        if (coronitaVideo.readyState >= 2 && Math.abs(targetTime - lastSetTime) > 0.033) {
-          coronitaVideo.currentTime = targetTime
-          lastSetTime = targetTime
-        }
+         coronitaTargetTime = self.progress * coronitaDuration
       },
       onEnter: () => {
         coronitaVideo.classList.remove("coronita-bw")
         gsap.to(coronitaFrame, { rotation: 0, duration: 0.4, ease: "power2.out" })
+        if (!coronitaRafId) coronitaRafId = requestAnimationFrame(smoothCoronitaRAF)
+      },
+      onEnterBack: () => {
+        if (!coronitaRafId) coronitaRafId = requestAnimationFrame(smoothCoronitaRAF)
+      },
+      onLeave: () => {
+         if (coronitaRafId) { cancelAnimationFrame(coronitaRafId); coronitaRafId = null; }
       },
       onLeaveBack: () => {
         coronitaVideo.classList.add("coronita-bw")
         gsap.to(coronitaFrame, { rotation: -2, duration: 0.4, ease: "power2.out" })
+        if (coronitaRafId) { cancelAnimationFrame(coronitaRafId); coronitaRafId = null; }
       },
     })
   }
