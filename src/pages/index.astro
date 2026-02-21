@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro"
+import RsvpModal from "@/components/RsvpModal.astro"
 
 import HeroKeyLogo from "@/assets/hero-key-logo.webp"
 import HeroKeyBackground from "@/assets/hero-key-background.webp"
@@ -37,11 +38,7 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
       id="hero-overlay"
       class="fixed z-20 top-0 left-0 flex h-[var(--vh)] w-full flex-col items-center justify-between px-20 py-16 pointer-events-none"
     >
-      <header class="flex justify-between w-full pointer-events-auto">
-        <LogoVI
-          class="size-11 text-white hover:text-yellow-100 transition-colors duration-500 cursor-pointer"
-        />
-      </header>
+      
 
       <div
         id="hero-date"
@@ -95,6 +92,7 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
         class="min-w-full min-h-full object-cover scale-125"
         muted
         playsinline
+        webkit-playsinline="true"
         preload="auto"
       >
         <source src={videomp4} type="video/mp4" />
@@ -142,6 +140,7 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
           class="w-full h-full object-cover coronita-bw"
           muted
           playsinline
+          webkit-playsinline="true"
           preload="auto"
         >
           <source src={videoCoronita} type="video/mp4" />
@@ -158,6 +157,7 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
         class="w-full h-full object-cover"
         muted
         playsinline
+        webkit-playsinline="true"
         preload="auto"
       >
         <source src={videoFinalMp4} type="video/mp4" />
@@ -182,15 +182,45 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
         4 DE ABRIL, 2026 <span class="mx-2 text-pink-500">•</span> <span class="px-0">21:00 HS</span>
       </p>
       <div id="cta-buttons" class="flex flex-col sm:flex-row gap-6 justify-center opacity-0 translate-y-8">
-        <a href="#" class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-10 py-4 rounded-sm font-black text-xl uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(236,72,153,0.4)] clip-path-slant">
-          Confirmar Asistencia
-        </a>
-        <a href="#" class="bg-transparent border-2 border-white/30 text-white px-10 py-4 rounded-sm font-bold text-xl uppercase tracking-widest hover:bg-white/10 hover:border-white transition-all duration-300">
+        <RsvpModal />
+        <button id="btn-location" class="bg-transparent border-2 border-white/30 text-white px-10 py-4 rounded-sm font-bold text-xl uppercase tracking-widest hover:bg-white/10 hover:border-white transition-all duration-300 cursor-pointer">
           Ver Ubicación
-        </a>
+        </button>
       </div>
     </div>
   </section>
+
+  <!-- ===================== MAP MODAL ===================== -->
+  <div id="map-modal" class="fixed inset-0 z-[9000] pointer-events-none flex items-center justify-center" aria-hidden="true">
+    <div id="map-backdrop" class="absolute inset-0 bg-black/0"></div>
+    <div id="map-panel" class="relative w-[92vw] max-w-3xl rounded-xl overflow-hidden border border-white/20 shadow-[0_0_40px_rgba(236,72,153,0.25)] scale-90 opacity-0">
+      <div class="flex items-center justify-between px-5 py-3 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <h3 class="text-lg font-bold uppercase tracking-widest">Ubicación</h3>
+        <button id="map-close" class="text-white/60 hover:text-white text-2xl leading-none transition-colors cursor-pointer" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="relative w-full" style="padding-bottom:56.25%">
+        <iframe
+          id="map-iframe"
+          class="absolute inset-0 w-full h-full"
+          allowfullscreen
+          allow="geolocation *; fullscreen"
+          referrerpolicy="no-referrer-when-downgrade"
+          src=""
+        ></iframe>
+      </div>
+      <div class="px-5 py-3 bg-black/80 backdrop-blur-md border-t border-white/10 flex items-center gap-3">
+        <span class="text-white/70 text-sm">Sauces de Hudson</span>
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Sauces+de+Hudson"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ml-auto text-xs uppercase tracking-widest text-pink-400 hover:text-pink-300 transition-colors font-bold"
+        >
+          Abrir en Google Maps &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -236,6 +266,11 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     transform: rotate(-2deg);
     transform-origin: center;
   }
+
+  /* ── Map Modal ── */
+  #map-modal[aria-hidden="false"] {
+    pointer-events: auto;
+  }
 </style>
 
 <script>
@@ -255,6 +290,9 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     touchMultiplier: isMobile ? 3 : 1.5,  // más impulso por cada gesto táctil
     smoothWheel: true,                     // enable smooth scroll on mouse wheel
   })
+
+  // expose for RsvpModal (and MapModal) to pause/resume smooth scroll
+  ;(window as any).lenis = lenis
 
   // Sync Lenis scroll position → ScrollTrigger
   lenis.on("scroll", ScrollTrigger.update)
@@ -350,6 +388,63 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     // Phase 5: Text fades out, video fully revealed
     .to("#transition-text", { opacity: 0, duration: 0.15 }, 0.50)
 
+  const isIOSWebKit =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+
+  const waitForVideoReady = (videoEl: HTMLVideoElement) =>
+    new Promise<void>((resolve) => {
+      const isReady = () =>
+        Number.isFinite(videoEl.duration) && videoEl.duration > 0 && videoEl.readyState >= 1
+
+      if (isReady()) {
+        resolve()
+        return
+      }
+
+      const onReady = () => {
+        if (!isReady()) return
+        videoEl.removeEventListener("loadedmetadata", onReady)
+        videoEl.removeEventListener("loadeddata", onReady)
+        videoEl.removeEventListener("canplay", onReady)
+        resolve()
+      }
+
+      videoEl.addEventListener("loadedmetadata", onReady)
+      videoEl.addEventListener("loadeddata", onReady)
+      videoEl.addEventListener("canplay", onReady)
+    })
+
+  const unlockVideosOnFirstGesture = (videos: HTMLVideoElement[]) => {
+    if (!isIOSWebKit) return
+
+    let unlocked = false
+    const unlock = async () => {
+      if (unlocked) return
+      unlocked = true
+
+      document.removeEventListener("touchstart", unlock)
+      document.removeEventListener("pointerdown", unlock)
+      document.removeEventListener("click", unlock)
+
+      for (const videoEl of videos) {
+        try {
+          videoEl.muted = true
+          videoEl.playsInline = true
+          videoEl.load()
+          await videoEl.play()
+          videoEl.pause()
+          videoEl.currentTime = 0
+        } catch {
+        }
+      }
+    }
+
+    document.addEventListener("touchstart", unlock, { once: true, passive: true })
+    document.addEventListener("pointerdown", unlock, { once: true, passive: true })
+    document.addEventListener("click", unlock, { once: true, passive: true })
+  }
+
   // ─── 4. VIDEO SCRUB ───
   const video = document.getElementById("scrub-video") as HTMLVideoElement
 
@@ -394,11 +489,7 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
       .to("#video-fade-to-black", { opacity: 1, duration: 0.2 }, 0.75)
   }
 
-  if (video.readyState >= 1) {
-    initVideoScrub()
-  } else {
-    video.addEventListener("loadedmetadata", initVideoScrub)
-  }
+  waitForVideoReady(video).then(initVideoScrub)
 
   // ─── 5. FEATURES SECTION REVEAL ───
   gsap.to("#features-title", {
@@ -492,14 +583,12 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     })
   }
 
-  if (coronitaVideo.readyState >= 1) {
-    initCoronitaScrub()
-  } else {
-    coronitaVideo.addEventListener("loadedmetadata", initCoronitaScrub)
-  }
+  waitForVideoReady(coronitaVideo).then(initCoronitaScrub)
 
   // ─── 6. VIDEO FINAL (sticky + circular wipe) ───
   const videoFinal = document.getElementById("scrub-video-final") as HTMLVideoElement
+
+  unlockVideosOnFirstGesture([video, coronitaVideo, videoFinal])
 
   // Smooth video scrubbing for final video
   let videoFinalTargetTime = 0
@@ -563,11 +652,7 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     }, -0.47)
   }
 
-  if (videoFinal.readyState >= 1) {
-    initVideoFinalScrub()
-  } else {
-    videoFinal.addEventListener("loadedmetadata", initVideoFinalScrub)
-  }
+  waitForVideoReady(videoFinal).then(initVideoFinalScrub)
 
   // ─── 7. CTA SECTION REVEAL ───
   const ctaTl = gsap.timeline({
@@ -584,4 +669,55 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     .to("#cta-title", { opacity: 1, duration: 0.1 }, "<")
     .to("#cta-subtitle", { opacity: 1, duration: 0.1 }, "<")
     .to("#cta-buttons", { opacity: 1, y: 0, duration: 0.1 }, "<")
+
+  // ─── 8. MAP MODAL ───
+  const MAP_SRC = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD_YlkS7rGXCGe4Lgr7P-HxaCI0OUqsPlg&q=Sauces+de+Hudson&zoom=15`
+
+  const mapModal   = document.getElementById("map-modal")!
+  const mapBackdrop = document.getElementById("map-backdrop")!
+  const mapPanel   = document.getElementById("map-panel")!
+  const mapIframe  = document.getElementById("map-iframe") as HTMLIFrameElement
+  const btnOpen    = document.getElementById("btn-location")!
+  const btnClose   = document.getElementById("map-close")!
+
+  let mapOpen = false
+
+  const openMap = () => {
+    if (mapOpen) return
+    mapOpen = true
+    mapModal.setAttribute("aria-hidden", "false")
+    mapModal.style.pointerEvents = "auto"
+    lenis.stop()
+
+    // Lazy-load iframe src on first open
+    if (!mapIframe.src || mapIframe.src === "" || mapIframe.src === location.href) {
+      mapIframe.src = MAP_SRC
+    }
+
+    gsap.timeline()
+      .to(mapBackdrop, { backgroundColor: "rgba(0,0,0,0.75)", duration: 0.35, ease: "power2.out" }, 0)
+      .fromTo(mapPanel,
+        { opacity: 0, scale: 0.85, y: 40 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+        0.05
+      )
+  }
+
+  const closeMap = () => {
+    if (!mapOpen) return
+    mapOpen = false
+
+    gsap.timeline({ onComplete: () => {
+      mapModal.setAttribute("aria-hidden", "true")
+      mapModal.style.pointerEvents = "none"
+      lenis.start()
+    }})
+      .to(mapPanel, { opacity: 0, scale: 0.9, y: 30, duration: 0.3, ease: "power2.in" }, 0)
+      .to(mapBackdrop, { backgroundColor: "rgba(0,0,0,0)", duration: 0.3, ease: "power2.in" }, 0.05)
+  }
+
+  btnOpen.addEventListener("click", (e) => { e.preventDefault(); openMap() })
+  btnClose.addEventListener("click", closeMap)
+  mapBackdrop.addEventListener("click", closeMap)
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && mapOpen) closeMap() })
 </script>

@@ -1,0 +1,453 @@
+---
+// RsvpModal.astro — RSVP confirmation modal with Google Sheets backend
+---
+
+<!-- ── Trigger Button ── -->
+<button
+  id="btn-rsvp"
+  class="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-10 py-4 rounded-sm font-black text-xl uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(236,72,153,0.4)] clip-path-slant cursor-pointer"
+>
+  Confirmar Asistencia
+</button>
+
+<!-- ── Modal ── -->
+<div
+  id="rsvp-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="rsvp-modal-title"
+  aria-hidden="true"
+  class="rsvp-modal-root"
+>
+  <div id="rsvp-backdrop" class="rsvp-backdrop"></div>
+
+  <div id="rsvp-panel" class="rsvp-panel" tabindex="-1">
+    <!-- Header -->
+    <div class="rsvp-header">
+      <h2 id="rsvp-modal-title" class="rsvp-title">Confirmar Asistencia</h2>
+      <button id="rsvp-close" class="rsvp-close-btn" aria-label="Cerrar">&times;</button>
+    </div>
+
+    <!-- Form -->
+    <form id="rsvp-form" class="rsvp-form" novalidate>
+      <!-- Honeypot (hidden from humans) -->
+      <input
+        type="text"
+        name="website"
+        id="rsvp-honeypot"
+        autocomplete="off"
+        tabindex="-1"
+        aria-hidden="true"
+        class="rsvp-honeypot"
+      />
+
+      <div class="rsvp-field">
+        <label for="rsvp-nombre" class="rsvp-label">Nombre <span class="rsvp-required">*</span></label>
+        <input
+          type="text"
+          id="rsvp-nombre"
+          name="nombre"
+          class="rsvp-input"
+          required
+          autocomplete="given-name"
+          placeholder="Tu nombre"
+        />
+      </div>
+
+      <div class="rsvp-field">
+        <label for="rsvp-apellido" class="rsvp-label">Apellido <span class="rsvp-required">*</span></label>
+        <input
+          type="text"
+          id="rsvp-apellido"
+          name="apellido"
+          class="rsvp-input"
+          required
+          autocomplete="family-name"
+          placeholder="Tu apellido"
+        />
+      </div>
+
+      <div class="rsvp-field">
+        <label for="rsvp-instagram" class="rsvp-label">Instagram <span class="rsvp-optional">(opcional)</span></label>
+        <input
+          type="text"
+          id="rsvp-instagram"
+          name="instagram"
+          class="rsvp-input"
+          autocomplete="off"
+          placeholder="@usuario"
+        />
+      </div>
+
+      <div class="rsvp-field">
+        <label for="rsvp-email" class="rsvp-label">Email <span class="rsvp-optional">(opcional)</span></label>
+        <input
+          type="email"
+          id="rsvp-email"
+          name="email"
+          class="rsvp-input"
+          autocomplete="email"
+          placeholder="tu@email.com"
+        />
+      </div>
+
+      <div id="rsvp-status" class="rsvp-status" aria-live="polite" aria-atomic="true"></div>
+
+      <button type="submit" id="rsvp-submit" class="rsvp-submit-btn">
+        Confirmar
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  /* ── Root overlay ── */
+  .rsvp-modal-root {
+    position: fixed;
+    inset: 0;
+    z-index: 9100;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rsvp-modal-root[aria-hidden="false"] {
+    pointer-events: auto;
+  }
+
+  /* ── Backdrop ── */
+  .rsvp-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  /* ── Panel / Card ── */
+  .rsvp-panel {
+    position: relative;
+    width: 92vw;
+    max-width: 480px;
+    background: rgba(10, 10, 10, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow:
+      0 0 40px rgba(236, 72, 153, 0.18),
+      0 24px 64px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.85) translateY(40px);
+    outline: none;
+  }
+
+  /* ── Header ── */
+  .rsvp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .rsvp-title {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #fff;
+    margin: 0;
+  }
+
+  .rsvp-close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    transition: color 0.2s;
+  }
+
+  .rsvp-close-btn:hover {
+    color: #fff;
+  }
+
+  /* ── Form body ── */
+  .rsvp-form {
+    padding: 1.5rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .rsvp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .rsvp-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .rsvp-required {
+    color: #ec4899;
+  }
+
+  .rsvp-optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .rsvp-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.65rem 0.85rem;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+    outline: none;
+  }
+
+  .rsvp-input::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  .rsvp-input:focus {
+    border-color: #ec4899;
+    background: rgba(236, 72, 153, 0.07);
+    box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+  }
+
+  /* ── Submit button ── */
+  .rsvp-submit-btn {
+    margin-top: 0.25rem;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: linear-gradient(to right, #db2777, #9333ea);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition:
+      opacity 0.2s,
+      transform 0.15s;
+  }
+
+  .rsvp-submit-btn:hover:not(:disabled) {
+    transform: scale(1.02);
+  }
+
+  .rsvp-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── Status message ── */
+  .rsvp-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    min-height: 1.2em;
+    color: transparent;
+  }
+
+  .rsvp-status.is-success {
+    color: #4ade80;
+  }
+
+  .rsvp-status.is-error {
+    color: #f87171;
+  }
+
+  /* ── Honeypot ── */
+  .rsvp-honeypot {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap"
+
+  const SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxiqCjEjcmMNeQJVu9IrbktSgE4zMav7ZtOQwriwPcQz3UTGpGsKVbNjPtnKwTm39phoQ/exec"
+
+  // ── Element refs ──
+  const modal    = document.getElementById("rsvp-modal")!
+  const backdrop = document.getElementById("rsvp-backdrop")!
+  const panel    = document.getElementById("rsvp-panel")!
+  const btnOpen  = document.getElementById("btn-rsvp")!
+  const btnClose = document.getElementById("rsvp-close")!
+  const form     = document.getElementById("rsvp-form") as HTMLFormElement
+  const submitBtn = document.getElementById("rsvp-submit") as HTMLButtonElement
+  const statusEl = document.getElementById("rsvp-status")!
+  const honeypot = document.getElementById("rsvp-honeypot") as HTMLInputElement
+  const firstInput = document.getElementById("rsvp-nombre") as HTMLInputElement
+
+  let isOpen = false
+
+  // ── Focusable elements for focus trap ──
+  const getFocusable = () =>
+    Array.from(
+      panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([tabindex="-1"]), textarea, select, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => !el.closest(".rsvp-honeypot") && el.getAttribute("aria-hidden") !== "true")
+
+  // ── Open ──
+  const openRsvp = () => {
+    if (isOpen) return
+    isOpen = true
+    modal.setAttribute("aria-hidden", "false")
+    ;(window as any).lenis?.stop()
+
+    gsap
+      .timeline()
+      .to(backdrop, { backgroundColor: "rgba(0,0,0,0.75)", duration: 0.35, ease: "power2.out" }, 0)
+      .fromTo(
+        panel,
+        { opacity: 0, scale: 0.85, y: 40 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+        0.05
+      )
+      .add(() => {
+        requestAnimationFrame(() => firstInput.focus())
+      })
+  }
+
+  // ── Close ──
+  const closeRsvp = () => {
+    if (!isOpen) return
+    isOpen = false
+    gsap
+      .timeline({
+        onComplete: () => {
+          modal.setAttribute("aria-hidden", "true")
+          ;(window as any).lenis?.start()
+        },
+      })
+      .to(panel, { opacity: 0, scale: 0.9, y: 30, duration: 0.3, ease: "power2.in" }, 0)
+      .to(backdrop, { backgroundColor: "rgba(0,0,0,0)", duration: 0.3, ease: "power2.in" }, 0.05)
+  }
+
+  // ── Button wiring ──
+  btnOpen.addEventListener("click", (e) => { e.preventDefault(); openRsvp() })
+  btnClose.addEventListener("click", closeRsvp)
+  backdrop.addEventListener("click", closeRsvp)
+
+  document.addEventListener("keydown", (e) => {
+    if (!isOpen) return
+
+    if (e.key === "Escape") {
+      closeRsvp()
+      return
+    }
+
+    if (e.key === "Tab") {
+      const focusable = getFocusable()
+      if (focusable.length === 0) { e.preventDefault(); return }
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+  })
+
+  // ── Helpers ──
+  const setStatus = (msg: string, type: "success" | "error" | "") => {
+    statusEl.textContent = msg
+    statusEl.className = "rsvp-status" + (type ? ` is-${type}` : "")
+  }
+
+  const setSubmitting = (on: boolean) => {
+    submitBtn.disabled = on
+    submitBtn.textContent = on ? "Enviando…" : "Confirmar"
+  }
+
+  // ── Form submit ──
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    // Honeypot check — bail silently
+    if (honeypot.value.trim() !== "") return
+
+    // Basic required-field validation
+    const nombre = (form.elements.namedItem("nombre") as HTMLInputElement).value.trim()
+    const apellido = (form.elements.namedItem("apellido") as HTMLInputElement).value.trim()
+
+    if (!nombre || !apellido) {
+      setStatus("Por favor completá nombre y apellido.", "error")
+      return
+    }
+
+    // Normalize instagram
+    let instagram = (form.elements.namedItem("instagram") as HTMLInputElement).value.trim()
+    if (instagram.startsWith("@")) instagram = instagram.slice(1)
+
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value.trim()
+
+    const data = { nombre, apellido, instagram, email }
+
+    setStatus("", "")
+    setSubmitting(true)
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data),
+      })
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+      setStatus("¡Listo! Gracias por confirmar 🙌", "success")
+      form.reset()
+
+      setTimeout(() => {
+        closeRsvp()
+        setTimeout(() => setStatus("", ""), 600)
+      }, 1500)
+    } catch (err) {
+      console.error("[RSVP]", err)
+      setStatus("Algo salió mal. Por favor intentá de nuevo.", "error")
+      setSubmitting(false)
+    }
+  })
+</script>

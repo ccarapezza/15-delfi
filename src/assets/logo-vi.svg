@@ -1,1 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true" class="_1o5pgyxd _1o5pgyxe _1n4m2yu0" viewBox="0 0 46 35"><path fill="currentColor" d="M46.2661.8008H34.7236v33.6h11.5425v-33.6ZM33.9162.8008l-16.5804 33.6L.7768.8008H12.314l5.0193 10.7437L22.3766.8008h11.5396ZM46.9194 1.4394c.0862 0 .1294.0355.1294.1064 0 .0592-.0333.093-.0999.1013l.1084.1644h-.0634l-.1034-.16h-.0625v.16h-.059v-.372h.1504Zm-.0235.1652c.0358 0 .0606-.0046.0739-.014.0133-.0093.02-.025.02-.0472 0-.038-.0267-.0571-.0799-.0571h-.0817v.1183h.0677Z"/><path fill="currentColor" d="M46.8961 1.9478c-.1807 0-.3277-.1442-.3277-.3216 0-.1773.147-.3215.3277-.3215.1808 0 .3278.1442.3278.3215s-.147.3216-.3278.3216Zm0-.5927c-.1524 0-.2765.1216-.2765.2713 0 .1496.124.2713.2765.2713.1526 0 .2766-.1217.2766-.2713 0-.1497-.124-.2713-.2766-.2713Z"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   fill="none"
+   aria-hidden="true"
+   class="_1o5pgyxd _1o5pgyxe _1n4m2yu0"
+   viewBox="0 0 46 35"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="logo-vi.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="15.771429"
+     inkscape:cx="17.595109"
+     inkscape:cy="16.992754"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <path
+     d="m 16.400451,32.060776 h 7.05798 L 13.59752,14.294858 7.8228089,2.4224426 H 0.89990941 L 10.524429,20.145653 Z m -16.04086539,0 H 7.147404 L 11.706388,22.110155 8.8359159,16.173948 Z M 14.340465,17.156195 22.512864,2.4224426 h -6.855358 l -4.356362,8.9683714 z m 16.817594,14.904581 h 6.247495 L 45.746804,2.4224426 H 39.701931 L 33.319355,28.131774 h 2.330147 L 29.705939,2.4224426 H 22.88435 Z"
+     id="text3"
+     style="font-weight:800;font-size:32.7751px;line-height:0.5;font-family:'Noto Sans Thai UI';-inkscape-font-specification:'Noto Sans Thai UI Ultra-Bold';fill:#ffffff;fill-opacity:1;stroke-width:2.19095"
+     aria-label="XV" />
+</svg>
