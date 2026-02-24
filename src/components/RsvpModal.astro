@@ -67,29 +67,15 @@
         />
       </div>
 
-      <div class="rsvp-field">
-        <label for="rsvp-instagram" class="rsvp-label">Instagram <span class="rsvp-optional">(opcional)</span></label>
-        <input
-          type="text"
-          id="rsvp-instagram"
-          name="instagram"
-          class="rsvp-input"
-          autocomplete="off"
-          placeholder="@usuario"
-        />
-      </div>
-
-      <div class="rsvp-field">
-        <label for="rsvp-email" class="rsvp-label">Email <span class="rsvp-optional">(opcional)</span></label>
-        <input
-          type="email"
-          id="rsvp-email"
-          name="email"
-          class="rsvp-input"
-          autocomplete="email"
-          placeholder="tu@email.com"
-        />
-      </div>
+      <!-- Bus checkbox -->
+      <label class="rsvp-checkbox-label" for="rsvp-colectivo">
+        <input type="checkbox" id="rsvp-colectivo" name="colectivo" class="rsvp-checkbox" />
+        <span class="rsvp-checkbox-box"></span>
+        <span class="rsvp-checkbox-text">
+          <strong>🚌 Voy en el colectivo</strong>
+          <span class="rsvp-checkbox-hint">Ida y vuelta organizado</span>
+        </span>
+      </label>
 
       <div id="rsvp-status" class="rsvp-status" aria-live="polite" aria-atomic="true"></div>
 
@@ -97,6 +83,46 @@
         Confirmar
       </button>
     </form>
+  </div>
+
+  <!-- ── Confirmation panel (slides in over the form) ── -->
+  <div id="rsvp-confirm-panel" class="rsvp-confirm-panel" aria-hidden="true">
+    <div class="rsvp-header">
+      <h2 class="rsvp-title">¿Todo bien?</h2>
+      <button id="rsvp-confirm-back" class="rsvp-close-btn" aria-label="Volver">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+    </div>
+    <div class="rsvp-confirm-body">
+      <p class="rsvp-confirm-intro">Revisá tus datos antes de confirmar:</p>
+
+      <div class="rsvp-confirm-row">
+        <span class="rsvp-confirm-label">Nombre</span>
+        <span id="rsvp-confirm-nombre" class="rsvp-confirm-value"></span>
+      </div>
+      <div class="rsvp-confirm-row">
+        <span class="rsvp-confirm-label">Apellido</span>
+        <span id="rsvp-confirm-apellido" class="rsvp-confirm-value"></span>
+      </div>
+      <div class="rsvp-confirm-row">
+        <span class="rsvp-confirm-label">Colectivo</span>
+        <span id="rsvp-confirm-colectivo" class="rsvp-confirm-value"></span>
+      </div>
+
+      <!-- Bus warning — shown only if colectivo is unchecked -->
+      <div id="rsvp-bus-warning" class="rsvp-bus-warning" aria-hidden="true">
+        <span class="rsvp-bus-warning-icon">⚠️</span>
+        <div>
+          <strong>¿Olvidaste el colectivo?</strong>
+          <p>No marcaste que vas en el colectivo. Si querés sumarte, volvé y tildá la opción.</p>
+        </div>
+      </div>
+
+      <div class="rsvp-confirm-actions">
+        <button id="rsvp-confirm-edit" class="rsvp-confirm-edit-btn">Editar</button>
+        <button id="rsvp-confirm-send" class="rsvp-submit-btn" style="flex:1">Sí, confirmar</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -128,6 +154,10 @@
     position: relative;
     width: 92vw;
     max-width: 480px;
+    max-height: 90dvh;
+    max-height: 90vh; /* fallback */
+    display: flex;
+    flex-direction: column;
     background: rgba(10, 10, 10, 0.96);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
@@ -182,6 +212,9 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow-y: auto;
+    flex: 1 1 auto;
+    overscroll-behavior: contain;
   }
 
   .rsvp-field {
@@ -282,6 +315,193 @@
     color: #f87171;
   }
 
+  /* ── Bus checkbox ── */
+  .rsvp-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: 8px;
+    background: rgba(6, 182, 212, 0.05);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .rsvp-checkbox-label:hover {
+    border-color: rgba(6, 182, 212, 0.55);
+    background: rgba(6, 182, 212, 0.1);
+  }
+
+  .rsvp-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .rsvp-checkbox-box {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border: 2px solid rgba(6, 182, 212, 0.5);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .rsvp-checkbox:checked + .rsvp-checkbox-box {
+    background: #06b6d4;
+    border-color: #06b6d4;
+  }
+
+  .rsvp-checkbox:checked + .rsvp-checkbox-box::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 11px;
+    border: 2.5px solid #000;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+
+  .rsvp-checkbox-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .rsvp-checkbox-hint {
+    font-size: 0.72rem;
+    color: rgba(6, 182, 212, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Confirmation panel ── */
+  .rsvp-confirm-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.98);
+    border-radius: 12px;
+    overflow: hidden;
+    transform: translateX(100%);
+    z-index: 2;
+  }
+
+  .rsvp-confirm-body {
+    padding: 1.5rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    overflow-y: auto;
+    flex: 1 1 auto;
+  }
+
+  .rsvp-confirm-intro {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+
+  .rsvp-confirm-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.85rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+
+  .rsvp-confirm-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .rsvp-confirm-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* Bus warning box */
+  .rsvp-bus-warning {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.85rem 1rem;
+    background: rgba(251,191,36,0.08);
+    border: 1px solid rgba(251,191,36,0.35);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: rgba(253,224,132,0.9);
+    line-height: 1.5;
+  }
+
+  .rsvp-bus-warning[aria-hidden="true"] { display: none; }
+
+  .rsvp-bus-warning-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .rsvp-bus-warning strong {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: rgb(253,224,132);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .rsvp-bus-warning p {
+    margin: 0;
+    color: rgba(253,224,132,0.75);
+  }
+
+  .rsvp-confirm-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .rsvp-confirm-edit-btn {
+    padding: 0.8rem 1.25rem;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .rsvp-confirm-edit-btn:hover {
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+  }
+
   /* ── Honeypot ── */
   .rsvp-honeypot {
     position: absolute;
@@ -301,6 +521,9 @@
 
   // ── Element refs ──
   const modal    = document.getElementById("rsvp-modal")!
+  // Portal: move modal to <body> so no transformed ancestor affects position:fixed
+  document.body.appendChild(modal)
+
   const backdrop = document.getElementById("rsvp-backdrop")!
   const panel    = document.getElementById("rsvp-panel")!
   const btnOpen  = document.getElementById("btn-rsvp")!
@@ -390,6 +613,60 @@
     }
   })
 
+  const confirmPanel  = document.getElementById("rsvp-confirm-panel")!
+  const confirmNombre  = document.getElementById("rsvp-confirm-nombre")!
+  const confirmApellido = document.getElementById("rsvp-confirm-apellido")!
+  const confirmColectivo = document.getElementById("rsvp-confirm-colectivo")!
+  const busWarning     = document.getElementById("rsvp-bus-warning")!
+  const btnConfirmBack = document.getElementById("rsvp-confirm-back")!
+  const btnConfirmEdit = document.getElementById("rsvp-confirm-edit")!
+  const btnConfirmSend = document.getElementById("rsvp-confirm-send")!
+
+  let pendingData: { nombre: string; apellido: string; colectivo: boolean } | null = null
+
+  // ── Show / hide confirmation panel ──
+  const showConfirm = (data: typeof pendingData) => {
+    pendingData = data!
+    confirmNombre.textContent = data!.nombre
+    confirmApellido.textContent = data!.apellido
+    confirmColectivo.textContent = data!.colectivo ? '\u2705 S\u00ed, voy en el colectivo' : '\u274c No'
+    busWarning.setAttribute('aria-hidden', data!.colectivo ? 'true' : 'false')
+    gsap.to(confirmPanel, { x: '0%', duration: 0.35, ease: 'power3.out' })
+  }
+
+  const hideConfirm = () => {
+    gsap.to(confirmPanel, { x: '100%', duration: 0.28, ease: 'power3.in' })
+  }
+
+  btnConfirmBack.addEventListener('click', hideConfirm)
+  btnConfirmEdit.addEventListener('click', hideConfirm)
+
+  btnConfirmSend.addEventListener('click', async () => {
+    if (!pendingData) return
+    const data = pendingData
+    pendingData = null
+    hideConfirm()
+
+    setStatus('', '')
+    setSubmitting(true)
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setStatus('\u00a1Listo! Gracias por confirmar \ud83d\ude4c', 'success')
+      form.reset()
+      setTimeout(() => { closeRsvp(); setTimeout(() => setStatus('', ''), 600) }, 1500)
+    } catch (err) {
+      console.error('[RSVP]', err)
+      setStatus('Algo sali\u00f3 mal. Por favor intent\u00e1 de nuevo.', 'error')
+      setSubmitting(false)
+    }
+  })
+
   // ── Helpers ──
   const setStatus = (msg: string, type: "success" | "error" | "") => {
     statusEl.textContent = msg
@@ -402,13 +679,11 @@
   }
 
   // ── Form submit ──
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault()
 
-    // Honeypot check — bail silently
     if (honeypot.value.trim() !== "") return
 
-    // Basic required-field validation
     const nombre = (form.elements.namedItem("nombre") as HTMLInputElement).value.trim()
     const apellido = (form.elements.namedItem("apellido") as HTMLInputElement).value.trim()
 
@@ -417,37 +692,8 @@
       return
     }
 
-    // Normalize instagram
-    let instagram = (form.elements.namedItem("instagram") as HTMLInputElement).value.trim()
-    if (instagram.startsWith("@")) instagram = instagram.slice(1)
-
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value.trim()
-
-    const data = { nombre, apellido, instagram, email }
-
-    setStatus("", "")
-    setSubmitting(true)
-
-    try {
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(data),
-      })
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-
-      setStatus("¡Listo! Gracias por confirmar 🙌", "success")
-      form.reset()
-
-      setTimeout(() => {
-        closeRsvp()
-        setTimeout(() => setStatus("", ""), 600)
-      }, 1500)
-    } catch (err) {
-      console.error("[RSVP]", err)
-      setStatus("Algo salió mal. Por favor intentá de nuevo.", "error")
-      setSubmitting(false)
-    }
+    const colectivo = (form.elements.namedItem("colectivo") as HTMLInputElement).checked
+    showConfirm({ nombre, apellido, colectivo })
   })
+
 </script>

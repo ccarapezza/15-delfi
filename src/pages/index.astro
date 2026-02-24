@@ -9,6 +9,13 @@ import LogoCutted from "@/assets/logo-cutted.svg"
 import videomp4 from "@/assets/videos/web-auto.mp4"
 import videoFinalMp4 from "@/assets/videos/web-auto-final.mp4"
 import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
+import gallery1 from "@/assets/gallery/1.webp"
+import gallery3 from "@/assets/gallery/3.webp"
+import gallery5 from "@/assets/gallery/5.webp"
+import gallery6 from "@/assets/gallery/6.webp"
+import gallery7 from "@/assets/gallery/7.webp"
+import videoBus from "@/assets/videos/web-1551-scrub.mp4"
+import videoCierre from "@/assets/videos/cierre-scrub.mp4"
 ---
 
 <Layout>
@@ -115,12 +122,23 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
         <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-pink-500/50 transition-colors duration-300">
           <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]">🍸</div>
           <h3 class="text-2xl font-bold mb-2 uppercase italic">Open Bar</h3>
+          <span class="inline-block text-sm font-black uppercase tracking-widest text-pink-400 border-2 border-pink-500/60 rounded-lg px-4 py-1.5 leading-none mb-3">+18 Alcohol</span>
           <p class="text-white/60 text-sm">Combustible ilimitado para aguantar la misión hasta el amanecer.</p>
+          <p class="text-white/40 text-xs mt-2">🥤 También hay bebidas sin alcohol para todos.</p>
         </div>
-        <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-purple-500/50 transition-colors duration-300">
+        <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-purple-500/50 transition-colors duration-300 flex flex-col">
           <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">🎧</div>
           <h3 class="text-2xl font-bold mb-2 uppercase italic">Line Up</h3>
-          <p class="text-white/60 text-sm">DJ Set explosivo. Solo hits. Si no bailás, estás fuera del equipo.</p>
+          <p class="text-white/60 text-sm mb-6">DJ Set explosivo. Solo hits. Si no bailás, estás fuera del equipo.<br/><span class="text-white/40">¿Tenés un tema que no puede faltar? Sumalo a la playlist colaborativa.</span></p>
+          <a
+            href="https://open.spotify.com/playlist/4Jk7r5jw8sRcs5mzy680Ks?si=I6SOm83TTi6_e34AhD7-2Q&pi=UCJ0S-fXR3q_D&pt=2bf15a9b9fa93fcc0ff17d0e6a0fec4b"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-auto inline-flex items-center justify-center gap-2 bg-[#1DB954]/10 hover:bg-[#1DB954]/25 border border-[#1DB954]/40 hover:border-[#1DB954]/80 text-[#1DB954] text-xs font-black uppercase tracking-widest px-4 py-2.5 rounded-lg transition-all duration-300"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 01-.277-1.215c3.809-.87 7.076-.496 9.712 1.115a.623.623 0 01.207.857zm1.223-2.722a.78.78 0 01-1.072.257C14.1 12.235 10.53 11.82 7.8 12.64a.78.78 0 01-.45-1.492c3.076-.93 6.897-.479 9.508 1.282a.78.78 0 01.257 1.072zm.105-2.835C15.127 9.3 10.95 9.16 8.33 9.95a.937.937 0 11-.543-1.794c3.014-.913 8.023-.736 11.19 1.163a.937.937 0 01-.964 1.548z"/></svg>
+            Sumar canciones
+          </a>
         </div>
         <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-cyan-500/50 transition-colors duration-300">
           <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">🕶️</div>
@@ -145,6 +163,139 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
         >
           <source src={videoCoronita} type="video/mp4" />
         </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.7: BUS AL EVENTO ===================== -->
+  <section id="bus-section" class="relative h-[250vh] z-[66]">
+    <div id="bus-sticky" class="sticky top-0 h-[var(--vh)] overflow-hidden flex items-center justify-center">
+      <!-- Background video -->
+      <video
+        id="bus-video"
+        class="absolute inset-0 w-full h-full object-cover scale-110"
+        muted
+        playsinline
+        webkit-playsinline="true"
+        preload="auto"
+      >
+        <source src={videoBus} type="video/mp4" />
+      </video>
+      <!-- Dark gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
+      <!-- Vignette -->
+      <div class="absolute inset-0" style="box-shadow: inset 0 0 120px 60px rgba(0,0,0,0.8);"></div>
+
+      <!-- Text content -->
+      <div id="bus-content" class="relative z-10 text-center max-w-2xl px-8">
+        <span id="bus-pill" class="inline-block text-[10px] uppercase tracking-[6px] text-cyan-400 font-bold mb-6 border border-cyan-500/40 px-4 py-1 rounded-full">
+          Logística
+        </span>
+        <h2 id="bus-title" class="text-6xl md:text-8xl font-black uppercase italic tracking-tight mb-4 text-white leading-none">
+          Bus al<br/>Evento
+        </h2>
+        <div class="w-16 h-[2px] bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto my-6"></div>
+        <p id="bus-body" class="text-lg md:text-xl text-white font-black leading-relaxed mb-8 bus-body-text">
+          Organizamos un colectivo de ida y vuelta para que no te preocupes por cómo llegar.
+          Punto de encuentro a confirmar próximamente.
+        </p>
+        <div id="bus-cta" class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-6 py-4">
+          <span class="text-cyan-400 text-2xl">🚌</span>
+          <p class="text-sm text-white/70 text-left leading-snug">
+            <strong class="text-white block mb-0.5 uppercase tracking-wide text-xs">Importante</strong>
+            Seleccioná la opción de colectivo en el formulario de confirmación
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.8: POLAROID GALLERY ===================== -->
+  <section id="gallery-section" class="relative h-[720vh] z-[65]">
+    <div class="sticky top-0 h-[var(--vh)] overflow-hidden flex items-center justify-center">
+      <div id="gallery-stack" class="relative w-[min(75vw,320px)] h-[min(80vh,600px)]">
+        <div class="polaroid-card absolute left-0 right-0 top-1/2" data-from="left" data-rot="-4">
+          <div class="polaroid-inner">
+            <img src={gallery1.src} alt="" class="polaroid-img" />
+          </div>
+        </div>
+        <div class="polaroid-card absolute left-0 right-0 top-1/2" data-from="right" data-rot="3">
+          <div class="polaroid-inner">
+            <img src={gallery3.src} alt="" class="polaroid-img" />
+          </div>
+        </div>
+        <div class="polaroid-card absolute left-0 right-0 top-1/2" data-from="left" data-rot="-2">
+          <div class="polaroid-inner">
+            <img src={gallery5.src} alt="" class="polaroid-img" />
+          </div>
+        </div>
+        <div class="polaroid-card absolute left-0 right-0 top-1/2" data-from="right" data-rot="5">
+          <div class="polaroid-inner">
+            <img src={gallery6.src} alt="" class="polaroid-img" />
+          </div>
+        </div>
+        <div class="polaroid-card absolute left-0 right-0 top-1/2" data-from="left" data-rot="-1">
+          <div class="polaroid-inner">
+            <img src={gallery7.src} alt="" class="polaroid-img" />
+          </div>
+        </div>
+        <div class="polaroid-card absolute left-0 right-0 top-1/2" data-from="right" data-rot="2">
+          <div class="polaroid-inner polaroid-inner--video">
+            <video
+              id="cierre-video"
+              class="polaroid-video"
+              muted
+              playsinline
+              webkit-playsinline="true"
+              preload="auto"
+            >
+              <source src={videoCierre} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.9: DRESS CODE CARD ===================== -->
+  <section id="dresscode-section" class="relative h-[300vh] z-[65]">
+    <div class="sticky top-0 h-[var(--vh)] flex items-center justify-center overflow-hidden">
+      <div
+        id="dresscode-card"
+        class="relative w-[90vw] max-w-md text-center"
+        style="transform: translateY(110vh)"
+      >
+        <!-- outer glow border -->
+        <div class="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 opacity-60 blur-[2px]"></div>
+        <div class="relative bg-black/80 backdrop-blur-xl rounded-2xl p-10 border border-white/10">
+          <!-- top label -->
+          <span id="dresscode-mission" class="inline-block text-[10px] uppercase tracking-[6px] text-pink-400 font-bold mb-6 border border-pink-500/40 px-4 py-1 rounded-full">Mission Briefing</span>
+
+          <h3 class="text-6xl font-black uppercase italic tracking-tight mb-2 text-white">Dress<br/>Code</h3>
+
+          <div class="w-16 h-[2px] bg-gradient-to-r from-pink-500 to-purple-500 mx-auto my-6"></div>
+
+          <p id="dresscode-badge" class="text-2xl font-black uppercase tracking-[4px] text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-8">
+            Elegante Sport
+          </p>
+
+          <ul class="text-left space-y-3 mb-8 overflow-hidden">
+            <li id="dresscode-item-1" class="flex items-start gap-3 text-sm text-white/80">
+              <span class="text-green-400 font-bold mt-0.5">✓</span>
+              <span>Conjuntos sport con onda — zapatillas, gorras, streetwear top</span>
+            </li>
+            <li id="dresscode-item-2" class="flex items-start gap-3 text-sm text-white/80">
+              <span class="text-green-400 font-bold mt-0.5">✓</span>
+              <span>Vestidos, jeans, blazers — glamour con actitud</span>
+            </li>
+            <li id="dresscode-item-3" class="flex items-start gap-3 text-sm text-white/70">
+              <span class="text-red-400 font-bold mt-0.5">✗</span>
+              <span>Ojotas, pijamas o lo que usás para ir al kiosco</span>
+            </li>
+          </ul>
+
+          <p id="dresscode-tagline" class="text-xs uppercase tracking-[3px] text-white/40">Venís a brillar — no a pasar desapercibido</p>
+        </div>
       </div>
     </div>
   </section>
@@ -207,6 +358,11 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
           referrerpolicy="no-referrer-when-downgrade"
           src=""
         ></iframe>
+        <!-- Loading overlay -->
+        <div id="map-loader" class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/90 z-10">
+          <div class="map-spinner"></div>
+          <span class="text-white/60 text-xs uppercase tracking-[4px]">Cargando mapa…</span>
+        </div>
       </div>
       <div class="px-5 py-3 bg-black/80 backdrop-blur-md border-t border-white/10 flex items-center gap-3">
         <span class="text-white/70 text-sm">Sauces de Hudson</span>
@@ -258,6 +414,27 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     transition: filter 0.6s ease;
   }
 
+  #dresscode-card {
+    will-change: transform;
+  }
+
+  #dresscode-mission {
+    animation: mission-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes mission-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+      border-color: rgba(236, 72, 153, 0.25);
+      color: rgb(244, 114, 182);
+    }
+    50% {
+      box-shadow: 0 0 10px 3px rgba(236, 72, 153, 0.35);
+      border-color: rgba(236, 72, 153, 0.8);
+      color: rgb(249, 168, 212);
+    }
+  }
+
   .coronita-bw {
     filter: grayscale(100%);
   }
@@ -267,9 +444,85 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
     transform-origin: center;
   }
 
+  /* ── Polaroid Gallery ── */
+  .polaroid-inner {
+    width: 100%;
+    background: #fff;
+    padding: 10px 10px 40px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+
+  .polaroid-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* video card fills the polaroid frame */
+  .polaroid-inner--video {
+    padding-bottom: 10px; /* keep bottom white strip like others */
+  }
+
+  .polaroid-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+  }
+
+  /* ── Bus section: mask-image for soft top/bottom fade (no hard edge) ── */
+  #bus-sticky {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  }
+
+  /* ── Bus body text: outline only for max legibility ── */
+  .bus-body-text {
+    text-shadow:
+      1px 1px 0 #000,
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      0 2px 0 #000,
+      0 -2px 0 #000,
+      2px 0 0 #000,
+      -2px 0 0 #000;
+    -webkit-text-stroke: 1.5px #000;
+    paint-order: stroke fill;
+  }
+
   /* ── Map Modal ── */
   #map-modal[aria-hidden="false"] {
     pointer-events: auto;
+  }
+
+  /* ── Map loader spinner ── */
+  .map-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: rgb(236, 72, 153);
+    border-radius: 50%;
+    animation: map-spin 0.8s linear infinite;
+  }
+
+  @keyframes map-spin {
+    to { transform: rotate(360deg); }
   }
 </style>
 
@@ -585,10 +838,209 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
 
   waitForVideoReady(coronitaVideo).then(initCoronitaScrub)
 
+  // ─── 5.7. DRESS CODE CARD ───
+  gsap.set(["#dresscode-badge", "#dresscode-item-1", "#dresscode-item-2", "#dresscode-item-3", "#dresscode-tagline"], { opacity: 0 })
+  gsap.set("#dresscode-badge", { scale: 0.55 })
+  gsap.set(["#dresscode-item-1", "#dresscode-item-2", "#dresscode-item-3"], { x: 80 })
+  gsap.set("#dresscode-tagline", { filter: "blur(6px)", y: -6 })
+
+  // Card slides up into view
+  gsap.to("#dresscode-card", {
+    y: 0,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#dresscode-section",
+      start: "top 90%",
+      end: "top top",
+      scrub: 1.5,
+    },
+  })
+
+  // "ELEGANTE SPORT" grows in
+  gsap.fromTo("#dresscode-badge",
+    { opacity: 0, scale: 0.55 },
+    {
+      opacity: 1, scale: 1,
+      ease: "back.out(2.5)",
+      scrollTrigger: {
+        trigger: "#dresscode-section",
+        start: "15% top",
+        end: "30% top",
+        scrub: 1,
+      },
+    }
+  )
+
+  // List items slide in from the right, one by one
+  ;(["#dresscode-item-1", "#dresscode-item-2", "#dresscode-item-3"] as const).forEach((id, i) => {
+    gsap.fromTo(id,
+      { opacity: 0, x: 80 },
+      {
+        opacity: 1, x: 0,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "#dresscode-section",
+          start: `${32 + i * 9}% top`,
+          end: `${44 + i * 9}% top`,
+          scrub: 1,
+        },
+      }
+    )
+  })
+
+  // Tagline snaps in with a blur/lift effect
+  gsap.fromTo("#dresscode-tagline",
+    { opacity: 0, filter: "blur(6px)", y: -6 },
+    {
+      opacity: 1, filter: "blur(0px)", y: 0,
+      ease: "power4.out",
+      scrollTrigger: {
+        trigger: "#dresscode-section",
+        start: "64% top",
+        end: "68% top",
+        scrub: 0.4,
+      },
+    }
+  )
+
+  // ─── 5.8. POLAROID GALLERY ───
+  const gallerySection = document.getElementById("gallery-section")!
+  const cards = gsap.utils.toArray<HTMLElement>(".polaroid-card")
+  const CARDS_COUNT = cards.length
+  const STEP = 1 / CARDS_COUNT // scroll progress per card
+
+  // Initial state: all cards off-screen, centered vertically via yPercent
+  cards.forEach((card, i) => {
+    const fromLeft = card.dataset.from === "left"
+    const rot = parseFloat(card.dataset.rot || "0")
+    gsap.set(card, {
+      x: fromLeft ? "-130vw" : "130vw",
+      yPercent: -50,
+      rotation: fromLeft ? rot - 20 : rot + 20,
+      zIndex: i + 1,
+    })
+  })
+
+  ScrollTrigger.create({
+    trigger: "#gallery-section",
+    start: "top bottom",
+    end: "bottom bottom",
+    scrub: 1.2,
+    onUpdate: (self) => {
+      const p = self.progress
+      cards.forEach((card, i) => {
+        const fromLeft = card.dataset.from === "left"
+        const finalRot = parseFloat(card.dataset.rot || "0")
+        // Each card has a window of [i*STEP .. (i+1)*STEP]
+        const cardStart = i * STEP
+        const cardEnd = (i + 1) * STEP
+        const cardProgress = Math.max(0, Math.min(1, (p - cardStart) / (cardEnd - cardStart)))
+
+        const startX = fromLeft ? -130 : 130 // vw units
+        const currentX = startX * (1 - cardProgress)
+        const startRot = fromLeft ? finalRot - 20 : finalRot + 20
+        const currentRot = startRot + (finalRot - startRot) * cardProgress
+
+        gsap.set(card, { x: `${currentX}vw`, yPercent: -50, rotation: currentRot })
+      })
+    },
+  })
+
+  // ─── 5.85. CIERRE VIDEO INSIDE GALLERY POLAROID ───
+  const cierreVideoEl = document.getElementById("cierre-video") as HTMLVideoElement
+
+  let cierreTargetTime = 0
+  let cierreCurrentTime = 0
+  const CIERRE_LERP = 0.08
+
+  function smoothCierreRAF() {
+    const diff = cierreTargetTime - cierreCurrentTime
+    if (Math.abs(diff) > 0.0005) {
+      cierreCurrentTime += diff * CIERRE_LERP
+      if (cierreVideoEl.readyState >= 2) {
+        cierreVideoEl.currentTime = Math.max(0, Math.min(cierreCurrentTime, cierreVideoEl.duration))
+      }
+    }
+    requestAnimationFrame(smoothCierreRAF)
+  }
+  requestAnimationFrame(smoothCierreRAF)
+
+  const initCierreScrub = () => {
+    const cierre_duration = cierreVideoEl.duration || 1
+    // The 6th card occupies the last 1/6 of the gallery scroll window.
+    // We scrub the video across that same window.
+    const CARDS_TOTAL = 6
+    const cardStart = (CARDS_TOTAL - 1) / CARDS_TOTAL
+
+    ScrollTrigger.create({
+      trigger: "#gallery-section",
+      start: "top bottom",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = Math.max(0, Math.min(1, (self.progress - cardStart) / (1 - cardStart)))
+        cierreTargetTime = progress * cierre_duration
+      },
+    })
+  }
+
+  waitForVideoReady(cierreVideoEl).then(initCierreScrub)
+
+  // ─── 5.9. BUS AL EVENTO ───
+  const busVideoEl = document.getElementById("bus-video") as HTMLVideoElement
+
+  let busTargetTime = 0
+  let busCurrentTime = 0
+  const BUS_LERP = 0.08
+
+  function smoothBusRAF() {
+    const diff = busTargetTime - busCurrentTime
+    if (Math.abs(diff) > 0.0005) {
+      busCurrentTime += diff * BUS_LERP
+      if (busVideoEl.readyState >= 2) {
+        busVideoEl.currentTime = Math.max(0, Math.min(busCurrentTime, busVideoEl.duration))
+      }
+    }
+    requestAnimationFrame(smoothBusRAF)
+  }
+  requestAnimationFrame(smoothBusRAF)
+
+  const initBusScrub = () => {
+    const busDuration = busVideoEl.duration || 1
+    busCurrentTime = 0
+    busTargetTime = 0
+
+    ScrollTrigger.create({
+      trigger: "#bus-section",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        busTargetTime = self.progress * busDuration
+      },
+    })
+  }
+
+  // Reveal text content on enter
+  gsap.set(["#bus-pill", "#bus-title", "#bus-body", "#bus-cta"], { opacity: 0, y: 30 })
+  ScrollTrigger.create({
+    trigger: "#bus-section",
+    start: "top 80%",
+    once: true,
+    onEnter: () => {
+      gsap.to("#bus-pill",  { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", delay: 0.0 })
+      gsap.to("#bus-title", { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.15 })
+      gsap.to("#bus-body",  { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", delay: 0.3 })
+      gsap.to("#bus-cta",   { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)", delay: 0.5 })
+    },
+  })
+
+  waitForVideoReady(busVideoEl).then(initBusScrub)
+
   // ─── 6. VIDEO FINAL (sticky + circular wipe) ───
   const videoFinal = document.getElementById("scrub-video-final") as HTMLVideoElement
 
-  unlockVideosOnFirstGesture([video, coronitaVideo, videoFinal])
+  unlockVideosOnFirstGesture([video, coronitaVideo, busVideoEl, cierreVideoEl, videoFinal])
 
   // Smooth video scrubbing for final video
   let videoFinalTargetTime = 0
@@ -673,12 +1125,13 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
   // ─── 8. MAP MODAL ───
   const MAP_SRC = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD_YlkS7rGXCGe4Lgr7P-HxaCI0OUqsPlg&q=Sauces+de+Hudson&zoom=15`
 
-  const mapModal   = document.getElementById("map-modal")!
-  const mapBackdrop = document.getElementById("map-backdrop")!
-  const mapPanel   = document.getElementById("map-panel")!
-  const mapIframe  = document.getElementById("map-iframe") as HTMLIFrameElement
-  const btnOpen    = document.getElementById("btn-location")!
-  const btnClose   = document.getElementById("map-close")!
+  const mapModal    = document.getElementById("map-modal")!
+  const mapBackdrop  = document.getElementById("map-backdrop")!
+  const mapPanel    = document.getElementById("map-panel")!
+  const mapIframe   = document.getElementById("map-iframe") as HTMLIFrameElement
+  const mapLoader   = document.getElementById("map-loader")!
+  const btnOpen     = document.getElementById("btn-location")!
+  const btnClose    = document.getElementById("map-close")!
 
   let mapOpen = false
 
@@ -691,7 +1144,13 @@ import videoCoronita from "@/assets/videos/web-coronita-scrub.mp4"
 
     // Lazy-load iframe src on first open
     if (!mapIframe.src || mapIframe.src === "" || mapIframe.src === location.href) {
+      mapLoader.style.display = "flex"
       mapIframe.src = MAP_SRC
+      mapIframe.addEventListener("load", () => {
+        gsap.to(mapLoader, { opacity: 0, duration: 0.4, ease: "power2.out", onComplete: () => { mapLoader.style.display = "none" } })
+      }, { once: true })
+    } else {
+      mapLoader.style.display = "none"
     }
 
     gsap.timeline()
