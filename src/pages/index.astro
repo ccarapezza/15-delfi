@@ -118,7 +118,7 @@ import videoCierre from "@/assets/videos/cierre-scrub.mp4"
       <p class="text-xl text-white/80 max-w-2xl mx-auto mb-16 opacity-0 leading-relaxed font-medium" id="features-subtitle">
         Esta no es una fiesta cualquiera. Es <strong>EL EVENTO</strong>. Preparate para tomar la noche, romper la pista y vivir una experiencia criminalmente buena.
       </p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div id="features-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="feature-card bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/20 opacity-0 translate-y-12 hover:border-pink-500/50 transition-colors duration-300">
           <div class="text-5xl mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]">🍸</div>
           <h3 class="text-2xl font-bold mb-2 uppercase italic">Open Bar</h3>
@@ -182,9 +182,9 @@ import videoCierre from "@/assets/videos/cierre-scrub.mp4"
         <source src={videoBus} type="video/mp4" />
       </video>
       <!-- Dark gradient overlay -->
-      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
+      <div class="absolute inset-0 bg-[#111]/70 via-[#111]/50 to-[#111]/80"></div>
       <!-- Vignette -->
-      <div class="absolute inset-0" style="box-shadow: inset 0 0 120px 60px rgba(0,0,0,0.8);"></div>
+      <div class="absolute inset-0" style="box-shadow: inset 0 0 120px 60px rgba(17,17,17,0.8);"></div>
 
       <!-- Text content -->
       <div id="bus-content" class="relative z-10 text-center max-w-2xl px-8">
@@ -405,6 +405,20 @@ import videoCierre from "@/assets/videos/cierre-scrub.mp4"
     box-shadow: inset 0 0 100px 40px rgba(17, 17, 17, 0.9);
   }
 
+  @media (min-width: 768px) {
+    #video-container {
+      background: #111;
+    }
+
+    #scrub-video {
+      width: 80vw !important;
+      height: 100% !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      object-fit: contain !important;
+    }
+  }
+
   #video-final-wipe {
     background: linear-gradient(to bottom, #111 85%, transparent 100%);
     transform: translateY(-100%);
@@ -504,6 +518,67 @@ import videoCierre from "@/assets/videos/cierre-scrub.mp4"
       -2px 0 0 #000;
     -webkit-text-stroke: 1.5px #000;
     paint-order: stroke fill;
+  }
+
+  @media (min-width: 1024px) {
+    #features-section {
+      min-height: calc(var(--vh) + 42rem);
+      align-items: flex-start;
+    }
+
+    #features-section > div {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+
+    #features-grid {
+      grid-template-columns: 1fr;
+      max-width: 56rem;
+      margin-inline: auto;
+      gap: 1.5rem;
+    }
+
+    #features-grid .feature-card {
+      padding: 2.4rem;
+    }
+
+    #features-grid .feature-card h3 {
+      font-size: 2.2rem;
+      line-height: 1.1;
+    }
+
+    #features-grid .feature-card p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    #features-grid .feature-card span {
+      font-size: 0.9rem;
+    }
+
+    #coronita-section .sticky {
+      padding-block: 2.5rem;
+      box-sizing: border-box;
+    }
+
+    #coronita-frame {
+      height: min(calc(var(--vh) - 5rem), 90vh);
+      width: auto !important;
+      max-height: calc(var(--vh) - 5rem);
+    }
+
+    #video-final-section .sticky {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+    }
+
+    #scrub-video-final {
+      width: 80vw;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   /* ── Map Modal ── */

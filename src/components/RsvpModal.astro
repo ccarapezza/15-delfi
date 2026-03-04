@@ -67,6 +67,20 @@
         />
       </div>
 
+      <div class="rsvp-field">
+        <label for="rsvp-celular" class="rsvp-label">Celular <span class="rsvp-required">*</span></label>
+        <input
+          type="tel"
+          id="rsvp-celular"
+          name="celular"
+          class="rsvp-input"
+          required
+          autocomplete="tel"
+          placeholder="Ej: 1122334455"
+          inputmode="tel"
+        />
+      </div>
+
       <!-- Bus checkbox -->
       <label class="rsvp-checkbox-label" for="rsvp-colectivo">
         <input type="checkbox" id="rsvp-colectivo" name="colectivo" class="rsvp-checkbox" />
@@ -103,6 +117,10 @@
       <div class="rsvp-confirm-row">
         <span class="rsvp-confirm-label">Apellido</span>
         <span id="rsvp-confirm-apellido" class="rsvp-confirm-value"></span>
+      </div>
+      <div class="rsvp-confirm-row">
+        <span class="rsvp-confirm-label">Celular</span>
+        <span id="rsvp-confirm-celular" class="rsvp-confirm-value"></span>
       </div>
       <div class="rsvp-confirm-row">
         <span class="rsvp-confirm-label">Colectivo</span>
@@ -516,9 +534,8 @@
 <script>
   import { gsap } from "gsap"
 
-  const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxiqCjEjcmMNeQJVu9IrbktSgE4zMav7ZtOQwriwPcQz3UTGpGsKVbNjPtnKwTm39phoQ/exec"
-
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzX1lc0QNxBNONGemJ611i7hFDLIan1o1Ijr-eO8NURKH78asdVUo0TcHYUe97RAr2q/exec";
+  
   // ── Element refs ──
   const modal    = document.getElementById("rsvp-modal")!
   // Portal: move modal to <body> so no transformed ancestor affects position:fixed
@@ -616,19 +633,21 @@
   const confirmPanel  = document.getElementById("rsvp-confirm-panel")!
   const confirmNombre  = document.getElementById("rsvp-confirm-nombre")!
   const confirmApellido = document.getElementById("rsvp-confirm-apellido")!
+  const confirmCelular  = document.getElementById("rsvp-confirm-celular")!
   const confirmColectivo = document.getElementById("rsvp-confirm-colectivo")!
   const busWarning     = document.getElementById("rsvp-bus-warning")!
   const btnConfirmBack = document.getElementById("rsvp-confirm-back")!
   const btnConfirmEdit = document.getElementById("rsvp-confirm-edit")!
   const btnConfirmSend = document.getElementById("rsvp-confirm-send")!
 
-  let pendingData: { nombre: string; apellido: string; colectivo: boolean } | null = null
+  let pendingData: { nombre: string; apellido: string; celular: string; colectivo: boolean } | null = null
 
   // ── Show / hide confirmation panel ──
   const showConfirm = (data: typeof pendingData) => {
     pendingData = data!
     confirmNombre.textContent = data!.nombre
     confirmApellido.textContent = data!.apellido
+    confirmCelular.textContent = data!.celular
     confirmColectivo.textContent = data!.colectivo ? '\u2705 S\u00ed, voy en el colectivo' : '\u274c No'
     busWarning.setAttribute('aria-hidden', data!.colectivo ? 'true' : 'false')
     gsap.to(confirmPanel, { x: '0%', duration: 0.35, ease: 'power3.out' })
@@ -654,7 +673,7 @@
       const res = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, userAgent: navigator.userAgent }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setStatus('\u00a1Listo! Gracias por confirmar \ud83d\ude4c', 'success')
@@ -686,14 +705,20 @@
 
     const nombre = (form.elements.namedItem("nombre") as HTMLInputElement).value.trim()
     const apellido = (form.elements.namedItem("apellido") as HTMLInputElement).value.trim()
+    const celular = (form.elements.namedItem("celular") as HTMLInputElement).value.trim()
 
     if (!nombre || !apellido) {
       setStatus("Por favor completá nombre y apellido.", "error")
       return
     }
 
+    if (!celular) {
+      setStatus("Por favor completá tu número de celular.", "error")
+      return
+    }
+
     const colectivo = (form.elements.namedItem("colectivo") as HTMLInputElement).checked
-    showConfirm({ nombre, apellido, colectivo })
+    showConfirm({ nombre, apellido, celular, colectivo })
   })
 
 </script>
